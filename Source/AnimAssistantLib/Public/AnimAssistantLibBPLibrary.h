@@ -9,18 +9,14 @@ UCLASS()
 class UAnimAssistantLibBPLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_UCLASS_BODY()
-private:
-	static FString DefaultBoneList;
 public:
 
 	UFUNCTION(BlueprintCallable)
 	static void PrintVirtualBone(class USkeleton* Skeleton);
 
 	UFUNCTION(BlueprintCallable)
-	static void RetargetAnim(class USkeleton* Source, USkeleton* Dest, class UAnimBlueprint* AnimBP, const FString FolderPath);
+	static void RetargetAnim(class USkeleton* SourceSkeleton, USkeleton* DestSkeleton, class UAnimBlueprint* AnimBP, const FString FolderPath);
 
 	UFUNCTION(BlueprintCallable)
-	static void CreateVirtualBone(USkeleton* Dest, FString JsonBoneList);
-
-
+	static void CreateVirtualBone(USkeleton* DestSkeleton, FString JsonBoneList);
 };

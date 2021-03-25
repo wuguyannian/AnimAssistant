@@ -42,20 +42,5 @@ public class AnimAssistantLib : ModuleRules
 		// ... add private dependencies that you statically link with here ...	
 			}
 			);
-
-		PrivateIncludePathModuleNames.AddRange(
-			new string[] {
-				"AnimationEditor"
-			}
-			);
-
-
-		DynamicallyLoadedModuleNames.AddRange(
-			new string[]
-			{
-				// ... add any modules that your module loads dynamically here ...
-				"AnimationEditor"
-			}
-			);
 	}
 }

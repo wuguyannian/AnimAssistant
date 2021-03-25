@@ -645,14 +645,9 @@ void UAnimAssistantLibBPLibrary::RetargetAnim(class USkeleton* Source, USkeleton
 		TArray<TWeakObjectPtr<UObject>> InAnimAssets;
 		InAnimAssets.Add(AnimBP);
 		FAnimationRetargetContext RetargetContext(InAnimAssets, true, true);
-
 		RetargetAnimations(Source, Dest, RetargetContext, true, &NameRule);
 	}
 }
-
-FString UAnimAssistantLibBPLibrary::DefaultBoneList = TEXT(R"(
-
-)");
 
 
 void UAnimAssistantLibBPLibrary::CreateVirtualBone(USkeleton* Dest, FString JsonBoneList)
@@ -694,7 +689,13 @@ void UAnimAssistantLibBPLibrary::CreateVirtualBone(USkeleton* Dest, FString Json
 				}
 
 				FName BoneName;
-				Dest->AddNewVirtualBone(*BoneObj->GetStringField(KeySourceName), *BoneObj->GetStringField(KeyTargetName), BoneName);
+				FName SourceName = *BoneObj->GetStringField(KeySourceName);
+				FName TargetName = *BoneObj->GetStringField(KeyTargetName);
+				if (!Dest->AddNewVirtualBone(SourceName, TargetName, BoneName))
+				{
+					UE_LOG(LogAnimAssistantLib, Warning, TEXT("Bone[%d] Create Failed  SourceName[%s] TargetName[%s]"), IndexBone, *BoneName.ToString(), *SourceName.ToString(), *TargetName.ToString());
+					continue;
+				}
 				Dest->RenameVirtualBone(BoneName, *BoneObj->GetStringField(KeyBoneName));
 			}
 		}
